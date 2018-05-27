@@ -1,0 +1,6 @@
+---
+# - name: Ensure EPEL repo is installed
+#   include: epel.yml
+
+- name: Ensure required packages are installed
+  include: NetworkManager.yml

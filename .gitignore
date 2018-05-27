@@ -1,0 +1,10 @@
+gcp-credentials.json
+.terraform
+*.tfstate
+*.bk
+gcp/certs/gcp
+anieto.pem
+*.tfplan
+aws.tfvars
+openshift-inventory
+terraform.tfstate.d

@@ -1,0 +1,5 @@
+---
+- name: Install epel release package on CentOS
+  yum:
+    name: epel-release
+    state: present

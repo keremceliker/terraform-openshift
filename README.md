@@ -1,1 +1,1 @@
-# terraform-azure-openshift
+# terraform-openshift
