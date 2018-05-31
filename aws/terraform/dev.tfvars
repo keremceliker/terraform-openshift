@@ -5,6 +5,7 @@ instance_type         = "t2.large"
 image                = "ami-4c457735"
 key_name              = "anieto"
 
+cluster_id = "openshift-aws"
 master_count = 1
 infra_count = 1
 node_count = 1
