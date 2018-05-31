@@ -13,10 +13,7 @@ ${master_hosts} openshift_ip=${master_ips}
 [nodes]
 ${master_hosts} openshift_ip=${master_ips} openshift_schedulable=true openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
 ${infra_hosts} openshift_ip=${infra_ips} openshift_schedulable=true openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
-${node_hosts} openshift_ip=${node_ips} openshift_schedulable=true openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
-
-
-
+${node_hosts}
 
 
 
@@ -35,7 +32,24 @@ openshift_disable_check=disk_availability,docker_storage,memory_availability,doc
 
 
 # Cloud Provider Configuration
-
+#
+# Note: You may make use of environment variables rather than store
+# sensitive configuration within the ansible inventory.
+# For example:
+#openshift_cloudprovider_aws_access_key="{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+#openshift_cloudprovider_aws_secret_key="{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+#
+#openshift_clusterid=unique_identifier_per_availablility_zone
+openshift_clusterid=${cluster_id}
+#
+# AWS (Using API Credentials)
+#openshift_cloudprovider_kind=aws
+#openshift_cloudprovider_aws_access_key=aws_access_key_id
+#openshift_cloudprovider_aws_secret_key=aws_secret_access_key
+#
+# AWS (Using IAM Profiles)
+#openshift_cloudprovider_kind=aws
+# Note: IAM roles must exist before launching the instances.
 
 
 
@@ -62,6 +76,6 @@ openshift_logging_install_logging=True
 
 #openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/home/ale/htpasswd'}]
 
-openshift_public_hostname=${master_url}
-openshift_master_default_subdomain=apps.${master_url}
+openshift_public_hostname=openshift.mithrandir.gq
+openshift_master_default_subdomain=apps.openshift.mithrandir.gq
 openshift_master_api_port=8443
