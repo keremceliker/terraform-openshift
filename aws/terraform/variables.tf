@@ -26,6 +26,12 @@ variable "instance_type" {
   type        = "string"
 }
 
+
+variable "osdisk_size" {
+  description = "Tamaño del disco de sistema"
+  type        = "string"
+}
+
 variable "cidr_blocks" {
   description = "Subredes"
   type        = "list"
@@ -55,5 +61,11 @@ variable "infra_count" {
 
 variable "node_count" {
   description = "Cantidad de maquinas"
+  type        = "string"
+}
+
+
+variable "cluster_id" {
+  description = "ID del cluster"
   type        = "string"
 }
