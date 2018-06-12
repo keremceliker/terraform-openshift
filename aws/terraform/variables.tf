@@ -1,3 +1,8 @@
+variable "region" {
+  description = "Zona en la que desplegar"
+  type        = "string"
+}
+
 variable "zone" {
   description = "Zona en la que desplegar"
   type        = "string"
@@ -31,6 +36,12 @@ variable "osdisk_size" {
   description = "Tamaño del disco de sistema"
   type        = "string"
 }
+
+variable "cidr_block" {
+  description = "Redes"
+  type        = "string"
+}
+
 
 variable "cidr_blocks" {
   description = "Subredes"
@@ -68,4 +79,22 @@ variable "node_count" {
 variable "cluster_id" {
   description = "ID del cluster"
   type        = "string"
+}
+
+variable "console_domain" {
+  description = "URL para acceder a Openshift"
+  type        = "string"
+}
+
+variable "hosted_zone" {
+  description = "Zona DNS de Route 53"
+  type        = "string"
+}
+
+
+
+###### LOAD Balancer
+variable "elb_names" {
+  description = "Nombre del Load Balancer"
+  type        = "list"
 }
