@@ -68,14 +68,11 @@ data "template_file" "openshift-inventory" {
     aws_secret_access_key = "${var.aws_secret_key}"
     cluster_id            = "${var.cluster_id}"
     console_domain        = "${var.console_domain}"
-    # console_domain        = "${element(aws_instance.master.*.public_dns, 0)}"
   }
 }
 
 
 
 output "openshift-inventory" {
-        # value = "${data.template_file.openshift-inventory.*.rendered}"
-        # value = "${data.template_file.node-inventory.*.rendered}"
         value = "${data.template_file.openshift-inventory.rendered}"
 }

@@ -49,12 +49,6 @@ data "aws_security_group" "default" {
 }
 
 
-
-# resource "aws_security_group" "sg_tf_bastion" {
-#   name        = "Security Group Terraform Bastion"
-#   description = "Security Group Terraform Bastion"
-# }
-
 resource "aws_security_group" "sg_tf" {
   count          = "${length(var.security_groups)}"
   name           = "${var.security_groups[count.index]}-${terraform.workspace}"
@@ -70,9 +64,6 @@ resource "aws_security_group_rule" "bastion_ssh_tf" {
   to_port         = 22
   protocol        = "tcp"
   cidr_blocks     = ["0.0.0.0/0"]
-  # prefix_list_ids = ["pl-12c4e678"]
-
-  # security_group_id = "${aws_security_group.sg_tf_bastion.id}"
   security_group_id = "${element(aws_security_group.sg_tf.*.id, 0)}"
 }
 
@@ -83,9 +74,6 @@ resource "aws_security_group_rule" "master_8443_tf" {
   to_port         = 8443
   protocol        = "tcp"
   cidr_blocks     = ["0.0.0.0/0"]
-  # prefix_list_ids = ["pl-12c4e678"]
-
-  # security_group_id = "${aws_security_group.sg_tf_bastion.id}"
   security_group_id = "${element(aws_security_group.sg_tf.*.id, 1)}"
 }
 
@@ -96,9 +84,6 @@ resource "aws_security_group_rule" "infra_8443_tf" {
   to_port         = 8443
   protocol        = "tcp"
   cidr_blocks     = ["0.0.0.0/0"]
-  # prefix_list_ids = ["pl-12c4e678"]
-
-  # security_group_id = "${aws_security_group.sg_tf_bastion.id}"
   security_group_id = "${element(aws_security_group.sg_tf.*.id, 2)}"
 }
 
@@ -109,9 +94,6 @@ resource "aws_security_group_rule" "infra_443_tf" {
   to_port         = 443
   protocol        = "tcp"
   cidr_blocks     = ["0.0.0.0/0"]
-  # prefix_list_ids = ["pl-12c4e678"]
-
-  # security_group_id = "${aws_security_group.sg_tf_bastion.id}"
   security_group_id = "${element(aws_security_group.sg_tf.*.id, 2)}"
 }
 
@@ -122,8 +104,5 @@ resource "aws_security_group_rule" "infra_80_tf" {
   to_port         = 80
   protocol        = "tcp"
   cidr_blocks     = ["0.0.0.0/0"]
-  # prefix_list_ids = ["pl-12c4e678"]
-
-  # security_group_id = "${aws_security_group.sg_tf_bastion.id}"
   security_group_id = "${element(aws_security_group.sg_tf.*.id, 2)}"
 }

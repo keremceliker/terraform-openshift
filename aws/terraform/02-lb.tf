@@ -100,7 +100,6 @@ resource "aws_elb" "infra" {
 
 data "aws_route53_zone" "mithrandir" {
   name         = "${var.hosted_zone}"
-  # private_zone = true
 }
 
 
