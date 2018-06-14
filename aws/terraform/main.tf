@@ -58,7 +58,7 @@ resource "aws_instance" "master" {
 
   tags {
     Name = "master-tf${format("%02d", count.index + 1)}-${terraform.workspace}"
-    cluster-id = "${var.cluster_id}"
+    "kubernetes.io/cluster/openshift-cluster" = "${var.cluster_id}"
   }
 
 }
@@ -81,7 +81,7 @@ resource "aws_instance" "infra" {
 
   tags {
     Name = "infra-tf${format("%02d", count.index + 1)}-${terraform.workspace}"
-    cluster-id = "${var.cluster_id}"
+    "kubernetes.io/cluster/openshift-cluster" = "${var.cluster_id}"
   }
 
 }
@@ -105,7 +105,7 @@ resource "aws_instance" "node" {
 
   tags {
     Name = "node-tf${format("%02d", count.index + 1)}-${terraform.workspace}"
-    cluster-id = "${var.cluster_id}"
+    "kubernetes.io/cluster/openshift-cluster" = "${var.cluster_id}"
   }
 
 }
