@@ -53,8 +53,24 @@ data "template_file" "infra-inventory" {
   }
 }
 
+data "template_file" "glusterfs-nodes-inventory" {
+  count = "${var.glusterfs_count}"
+  template = "${file("templates/hostname-glusterfs.tpl")}"
+  vars {
+    name  = "${aws_instance.node.*.private_dns[count.index]}"
+    data = "\"/dev/xvdb\""
+  }
+}
 
 
+data "template_file" "glusterfs-registry-inventory" {
+  count = "${var.infra_count}"
+  template = "${file("templates/hostname-glusterfs.tpl")}"
+  vars {
+    name  = "${aws_instance.infra.*.private_dns[count.index]}"
+    data = "\"/dev/xvdb\""
+  }
+}
 
 data "template_file" "openshift-inventory" {
   template = "${file("templates/openshift-inventory.tpl")}"
@@ -64,6 +80,8 @@ data "template_file" "openshift-inventory" {
     etcd_hosts            = "${join(" ",data.template_file.etcd-inventory.*.rendered)}"
     infra_hosts           = "${join(" ",data.template_file.infra-inventory.*.rendered)}"
     node_hosts            = "${join(" ",data.template_file.node-inventory.*.rendered)}"
+    glusterfs_hosts       = "${join(" ",data.template_file.glusterfs-nodes-inventory.*.rendered)}"
+    registry_hosts        = "${join(" ",data.template_file.glusterfs-nodes-inventory.*.rendered)}"
     aws_access_key_id     = "${var.aws_access_key}"
     aws_secret_access_key = "${var.aws_secret_key}"
     cluster_id            = "${var.cluster_id}"
@@ -71,6 +89,17 @@ data "template_file" "openshift-inventory" {
   }
 }
 
+
+# data "template_file" "glusterfs-inventory" {
+#   template = "${file("templates/glusterfs-inventory.tpl")}"
+#   vars {
+#     glusterfs_hosts          = "${join("",data.template_file.glusterfs-nodes-inventory.*.rendered)}"
+#   }
+# }
+#
+# output "glusterfs-inventory" {
+#         value = "${data.template_file.glusterfs-inventory.*.rendered}"
+# }
 
 
 output "openshift-inventory" {

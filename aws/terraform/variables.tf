@@ -13,6 +13,10 @@ variable "bastion_instance_type" {
   type        = "string"
 }
 
+variable "glusterfs_instance_type" {
+  description = "Tamaño de la maquina"
+  type        = "string"
+}
 
 variable "default_sg_name" {
   description = "Grupo por defecto de seguridad"
@@ -75,6 +79,11 @@ variable "node_count" {
   type        = "string"
 }
 
+
+variable "glusterfs_count" {
+  description = "Cantidad de maquinas"
+  type        = "string"
+}
 
 variable "cluster_id" {
   description = "ID del cluster"

@@ -2,6 +2,7 @@
 masters
 nodes
 etcd
+glusterfs
 
 
 
@@ -16,6 +17,8 @@ ${master_node_hosts}
 ${infra_hosts}
 ${node_hosts}
 
+[glusterfs]
+${glusterfs_hosts}
 
 
 [OSEv3:vars]
@@ -30,7 +33,8 @@ containerized=True
 os_sdn_network_plugin_name='redhat/openshift-ovs-multitenant'
 openshift_disable_check=disk_availability,docker_storage,memory_availability,docker_image_availability
 
-
+openshift_master_dynamic_provisioning_enabled=true
+openshift_storage_glusterfs_storageclass_default=true
 
 # Cloud Provider Configuration
 #
@@ -39,12 +43,12 @@ openshift_disable_check=disk_availability,docker_storage,memory_availability,doc
 # For example:
 #openshift_cloudprovider_aws_access_key="{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
 #openshift_cloudprovider_aws_secret_key="{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
-openshift_cloudprovider_kind=aws
-openshift_cloudprovider_aws_access_key="${aws_access_key_id}"
-openshift_cloudprovider_aws_secret_key="${aws_secret_access_key}"
+#openshift_cloudprovider_kind=aws
+#openshift_cloudprovider_aws_access_key="${aws_access_key_id}"
+#openshift_cloudprovider_aws_secret_key="${aws_secret_access_key}"
 
 #openshift_clusterid=unique_identifier_per_availablility_zone
-openshift_clusterid=${cluster_id}
+#openshift_clusterid=${cluster_id}
 #
 
 # AWS (Using IAM Profiles)

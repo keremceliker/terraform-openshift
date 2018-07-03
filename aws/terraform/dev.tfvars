@@ -1,14 +1,18 @@
 region               = "eu-west-1"
 zone                 ="eu-west-1a"
-bastion_instance_type = "t2.small"
-instance_type         = "t2.large"
+bastion_instance_type = "t2.micro"
+# bastion_instance_type = "t2.small"
+# instance_type         = "t2.large"
+instance_type         = "t2.medium"
+glusterfs_instance_type = "t2.micro"
 image                = "ami-4c457735"
 key_name              = "anieto"
 
 cluster_id = "openshift-tf"
 master_count = 1
 infra_count = 1
-node_count = 1
+node_count = 3
+glusterfs_count = 3
 osdisk_size = "30"
 
 cidr_block = "172.16.0.0/16"
