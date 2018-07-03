@@ -1,3 +1,14 @@
+resource "aws_s3_bucket" "b" {
+  bucket = "openshift-tf"
+  acl    = "public-read-write"
+  force_destroy = true
+
+  versioning {
+    enabled = false
+  }
+}
+
+
 # Create a new load balancer
 resource "aws_elb" "master" {
   name               = "${element(var.elb_names, 0)}-${terraform.workspace}"
@@ -6,11 +17,11 @@ resource "aws_elb" "master" {
   security_groups    = ["${data.aws_security_group.default.id}","${element(aws_security_group.sg_tf.*.id, 1)}"]
   subnets            = ["${element(aws_subnet.openshift.*.id, 1 )}"]
 
-  # access_logs {
-  #   bucket        = "foo"
-  #   bucket_prefix = "bar"
-  #   interval      = 60
-  # }
+  access_logs {
+    bucket        = "openshift-tf"
+    # bucket_prefix = "bar"
+    interval      = 60
+  }
 
   # listener {
   #   instance_port     = 80
@@ -86,7 +97,7 @@ resource "aws_elb" "infra" {
     interval            = 30
   }
 
-  instances                   = ["${aws_instance.infra.id}"]
+  instances                   = ["${aws_instance.infra.*.id}"]
   cross_zone_load_balancing   = true
   idle_timeout                = 400
   connection_draining         = true
