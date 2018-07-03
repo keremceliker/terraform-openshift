@@ -9,3 +9,8 @@
     name: NetworkManager
     state: started
     enabled: yes
+
+- name: Install required packages
+  yum:
+    name: glusterfs-fuse
+    state: present

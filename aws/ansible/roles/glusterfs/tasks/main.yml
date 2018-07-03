@@ -1,0 +1,6 @@
+---
+- name: Ensure disks are prepared
+  include: prepare-disks.yml
+
+- name: Ensure required packages are installed
+  include: glusterfs.yml

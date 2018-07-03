@@ -1,0 +1,29 @@
+---
+# Create a new primary partition
+- parted:
+    device: /dev/xvdb
+    number: 1
+    state: present
+
+# Create a ext2 filesystem on /dev/sdb1.
+- filesystem:
+    fstype: xfs
+    dev: /dev/xvdb1
+
+
+- name: Ensure brick dir is present
+  file:
+    path: "{{ brick_dir }}"
+    state: directory
+
+- lineinfile:
+    path: /etc/fstab
+    # regexp: '^/dev/xvdb'
+    line: '/dev/xvdb1 {{ brick_dir }} xfs defaults 1 2'
+
+- name: Mount disk
+  shell: "mount -a"
+    # mkfs.xfs -i size=512 /dev/sdb1
+    # mkdir -p /data/brick1
+    # echo '/dev/sdb1 /data/brick1 xfs defaults 1 2' >> /etc/fstab
+    # mount -a && mount

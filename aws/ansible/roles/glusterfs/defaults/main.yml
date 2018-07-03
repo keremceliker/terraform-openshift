@@ -1,0 +1,7 @@
+---
+brick_dir: "/data/brick1"
+yum_packages:
+  - glusterfs
+  - glusterfs-cli
+  - glusterfs-libs
+  - glusterfs-server
