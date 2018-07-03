@@ -19,6 +19,7 @@ terraform apply aws-$WORKSPACE.tfplan
 
 echo "Creating openshift inventory"
 terraform output openshift-inventory > ../openshift-inventory
+# terraform output glusterfs-inventory > ../glusterfs-inventory
 
 echo "Getting output variables..."
 BASTION_IP=$(terraform output bastion_public_ip)
@@ -35,15 +36,22 @@ scp -o StrictHostKeychecking=no -i certs/anieto.pem certs/anieto.pem centos@$BAS
 
 echo "Transfering inventory to bastion server..."
 scp -o StrictHostKeychecking=no -i certs/anieto.pem openshift-inventory centos@$BASTION_IP:/home/centos/openshift-inventory
+# scp -o StrictHostKeychecking=no -i certs/anieto.pem glusterfs-inventory centos@$BASTION_IP:/home/centos/glusterfs-inventory
+
 
 echo "Transfering ansible requirements to bastion server..."
 scp -o StrictHostKeychecking=no -i certs/anieto.pem -r ansible centos@$BASTION_IP:/home/centos/ansible
 
 
+echo "Transfering ansible.cfg to bastion server..."
+scp -o StrictHostKeychecking=no -i certs/anieto.pem  ansible/ansible.cfg centos@$BASTION_IP:/home/centos/.ansible.cfg
 
+
+# ssh -t -o StrictHostKeychecking=no -i certs/anieto.pem centos@$BASTION_IP ansible-playbook -i /home/centos/glusterfs-inventory ansible/glusterfs.yml
 ssh -t -o StrictHostKeychecking=no -i certs/anieto.pem centos@$BASTION_IP ansible-playbook -i /home/centos/openshift-inventory ansible/main.yml
 ssh -t -o StrictHostKeychecking=no -i certs/anieto.pem centos@$BASTION_IP ansible-playbook -i /home/centos/openshift-inventory openshift-ansible/playbooks/prerequisites.yml
 ssh -t -o StrictHostKeychecking=no -i certs/anieto.pem centos@$BASTION_IP ansible-playbook -i /home/centos/openshift-inventory openshift-ansible/playbooks/deploy_cluster.yml
+# ssh -t -o StrictHostKeychecking=no -i certs/anieto.pem centos@$BASTION_IP ansible-playbook -i /home/centos/openshift-inventory openshift-ansible/playbooks/openshift-glusterfs/config.yml
 
 CONSOLE_URL=openshift-$WORKSPACE.mithrandir.gq
 echo "Console: https://$CONSOLE_URL:8443"
